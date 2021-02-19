@@ -7,12 +7,14 @@ import net.serenitybdd.junit.runners.SerenityRunner;
 import serenitylabs.tutorials.vetclinic.features.tasks.CheckIn;
 import serenitylabs.tutorials.vetclinic.model.Pet;
 import serenitylabs.tutorials.vetclinic.model.PetHotel;
+import serenitylabs.tutorials.vetclinic.questions.TheRegisteredGuests;
 
+import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+//tell junit this test will be run with Serenity
 @RunWith(SerenityRunner.class)
-
 public class BookAPetIntoAHotel {
 
     @Test
@@ -25,11 +27,14 @@ public class BookAPetIntoAHotel {
 
         //When
         petra.attemptsTo(
-                new CheckIn(ginger, petHotel)
+            CheckIn.aPet(ginger).into(petHotel)
+//          new CheckIn(ginger, petHotel)
         );
 
         //Then
-        assertThat(petHotel.getPets(),hasItem(ginger));
+       // assertThat(petHotel.getPets(),hasItem(ginger));
+        petra.should(seeThat(TheRegisteredGuests.in(petHotel), hasItem(ginger)));
+
 
     }
 
